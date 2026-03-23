@@ -1,19 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CTF ~ challenge </title>
+<meta charset="UTF-8">
+<title>CTF ~ Story</title>
+<style>
+body {
+    background-color: #000;
+    color: #00ff9c;
+    font-family: "Courier New", monospace;
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* Neon glow */
+p {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 0.8s forwards, flicker 3s infinite alternate;
+    text-shadow: 
+        0 0 5px #00ff9c,
+        0 0 10px #00ff9c,
+        0 0 20px #00ff9c,
+        0 0 40px #00ff9c;
+}
+
+/* Fade-in */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Flicker effect */
+@keyframes flicker {
+    0%   { opacity: 1; }
+    5%   { opacity: 0.8; }
+    10%  { opacity: 1; }
+    20%  { opacity: 0.6; }
+    30%  { opacity: 1; }
+    50%  { opacity: 0.9; }
+    70%  { opacity: 1; }
+    100% { opacity: 0.95; }
+}
+
+/* Scanlines overlay */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 255, 156, 0.05),
+        rgba(0, 255, 156, 0.05) 1px,
+        transparent 2px,
+        transparent 4px
+    );
+
+    pointer-events: none;
+}
+
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(circle, rgba(0,255,156,0.08), transparent 60%);
+    animation: pulse 6s infinite;
+    pointer-events: none;
+}
+
+@keyframes pulse {
+    0%   { transform: scale(1); opacity: 0.5; }
+    50%  { transform: scale(1.2); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 0.5; }
+}
+</style>
 </head>
 <body>
-    <h1>Loading the file</h1>
-    <script>
-        // We know that we can't write js in the html file but we don't care about it!
-        // https://ctf-challenge.netlify.app/add_here_the_rest
-        let name = [73,110,100,105,114,97,114,101,122,46,104,116,109,108];
-        for(char in name){
-            console.log(char)
-        }
-    </script>
+
+<div id="story"></div>
+
+<script>
+const story = [
+    "The system boots up...",
+    "No users detected.",
+    "Initializing core processes...",
+    "Scanning memory... no anomalies.",
+    "But something feels wrong.",
+    "A trace remains...",
+    "01001001 01101110 01100100 01101001 01110010",
+    "The system hesitates.",
+    "Fragments appear where there should be none.",
+    "01100001 01110010",
+    "Who inserted this data?",
+    "Searching logs... nothing found.",
+    "The structure begins to shift.",
+    "00101110 00101110 00101110",
+    "This was not part of the plan.",
+    "A deeper layer is responding now.",
+    "01100101 01111010",
+    "The system is no longer alone.",
+    "It is watching.",
+    "It is adapting.",
+    "It is learning.",
+    "The truth was never meant to be visible."
+];
+
+let i = 0;
+const storyDiv = document.getElementById("story");
+
+function revealStory() {
+    if (i < story.length) {
+        const p = document.createElement("p");
+        p.textContent = story[i];
+        storyDiv.appendChild(p);
+        i++;
+        setTimeout(revealStory, 2500);
+    }
+}
+revealStory();
+</script>
+
 </body>
 </html>
