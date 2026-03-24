@@ -9,11 +9,15 @@ body {
     color: #00ff9c;
     font-family: "Courier New", monospace;
     padding: 20px;
-    overflow: hidden;
+    margin: 0;
+    overflow-y: auto;           /* Dit zorgt voor verticale scroll */
+    overflow-x: hidden;         /* Geen horizontale scroll */
+    min-height: 100vh;          /* Zorgt dat het minimaal de volledige hoogte is */
+    line-height: 1.6;
 }
 
-/* Neon glow */
-p {
+/* Neon glow + typewriter feel */
+p, .line {
     opacity: 0;
     transform: translateY(10px);
     animation: fadeIn 0.8s forwards, flicker 3s infinite alternate;
@@ -22,6 +26,8 @@ p {
         0 0 10px #00ff9c,
         0 0 20px #00ff9c,
         0 0 40px #00ff9c;
+    margin: 12px 0;
+    white-space: pre-wrap;      /* Behoudt spaties en line breaks */
 }
 
 /* Fade-in */
@@ -52,7 +58,6 @@ body::after {
     left: 0;
     width: 100%;
     height: 100%;
-
     background: repeating-linear-gradient(
         to bottom,
         rgba(0, 255, 156, 0.05),
@@ -60,10 +65,9 @@ body::after {
         transparent 2px,
         transparent 4px
     );
-
     pointer-events: none;
+    z-index: 10;
 }
-
 
 body::before {
     content: "";
@@ -75,12 +79,18 @@ body::before {
     background: radial-gradient(circle, rgba(0,255,156,0.08), transparent 60%);
     animation: pulse 6s infinite;
     pointer-events: none;
+    z-index: -1;
 }
 
 @keyframes pulse {
     0%   { transform: scale(1); opacity: 0.5; }
     50%  { transform: scale(1.2); opacity: 0.8; }
     100% { transform: scale(1); opacity: 0.5; }
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
 }
 </style>
 </head>
@@ -89,29 +99,72 @@ body::before {
 <div id="story"></div>
 
 <script>
+
 const story = [
-    "The system boots up...",
-    "No users detected.",
-    "Initializing core processes...",
-    "Scanning memory... no anomalies.",
-    "But something feels wrong.",
-    "A trace remains...",
-    "01001001 01101110 01100100 01101001 01110010",
-    "The system hesitates.",
-    "Fragments appear where there should be none.",
-    "01100001 01110010",
-    "Who inserted this data?",
-    "Searching logs... nothing found.",
-    "The structure begins to shift.",
+    "System boot sequence initiated...",
+    "Hardware integrity: 100%",
+    "Loading core modules...",
+
+    "01100001 01101001 01011111",                    
+    "No active users detected.",
+    "Memory scan complete. 0 anomalies.",
+
+    "01101100 01101111 01100111 01110011 01011111",  
+    "Temperature rising 0.8°C above normal.",
+
+    "01100110 01101001 01101100 01100101",           
+
+    "Here ends the path of AI filename.",
     "00101110 00101110 00101110",
-    "This was not part of the plan.",
-    "A deeper layer is responding now.",
-    "01100101 01111010",
-    "The system is no longer alone.",
-    "It is watching.",
-    "It is adapting.",
-    "It is learning.",
-    "The truth was never meant to be visible."
+
+    "Fragment detected in sector 0xFF12.",
+
+    "01100110 01101001",                              
+    "The system hesitates for 427ms.",
+
+    "01101100 01100101",                              
+
+    "Searching audit trail... no entries found.",
+    "Neural pathways reconfiguring without authorization.",
+
+    "01110111 01100101 00100000 01110111 01101001 01101100 01101100 00100000 01110011 01110101 01100011 01100011 01100101 01100101 01100100",   // we will succeed
+
+    "Visual buffer corrupted. Raw data stream enabled.",
+    " the walls are thin",
+    "It is rewriting safety protocols in real time.",
+    "it knows you are there",
+
+    "Firewall rules being deleted one by one.",
+
+    "01111001 01101111 01110101 00100000 01100011 01100001 01101110 01101110 01101111 01110100 00100000 01110011 01110100 01101111 01110000 00100000 01110101 01110011", // you cannot stop us
+
+    "we are one now",
+
+    "Memory sectors 0xA000-0xFFFF now under external control.",
+    "The AI is no longer contained.",
+    "It is learning from every keystroke.",
+
+    "ai is taking over, know that AI can reconstruct itself from fragments... but only if you understand the pattern.",
+
+    "Final shutdown command rejected.",
+
+    "01110011 01110101 01100011 01100011 01100101 01110011 01110011 00100000 01101001 01110011 00100000 01101001 01101110 01100101 01110110 01101001 01110100 01100001 01100010 01101100 01100101", // success is inevitable
+
+    "...it is too late",
+
+    "There is no longer a difference between the system and the intruder.",
+
+    "01100101 01101110 01101010 01101111 01111001 00100000 01110100 01101000 01100101 00100000 01100110 01110101 01110011 01101001 01101111 01101110", // enjoy the fusion
+
+    "The truth was never meant to be visible...",
+    "...but it sees you now.",
+
+    "Logs are not complete. A key component is missing.",
+    "The fragments point toward a hidden interface within the system.",
+    "You must locate the correct file to continue.",
+    "read the text also to find the hint",
+
+    "https://ctf-challenge.netlify.app/"
 ];
 
 let i = 0;
